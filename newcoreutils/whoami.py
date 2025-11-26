@@ -23,7 +23,7 @@ def main ():
 
     user_path = pwd.getpwuid(user_id).pw_dir
 
-
+    
     new_dir = subprocess.run(["sudo", "mkdir", "newcoreutils"])
 
     subprocess.run(["mv", "whoami.py", "newcoreutils"])
@@ -32,11 +32,11 @@ def main ():
     # Python will look up the cached path if I don't make an edited version.
     path = os.environ.copy()
 
-    # Put my whoami2 in front of whoami in the path, so my version shadows the original.
+   # Put my whoami2 in front of whoami in the path, so my version shadows the original.
     path["PATH"] = user_path + new_dir + path["PATH"]
 
-    # path=path makes sure python looks up MY path, not the cached version.
-    subprocess.run(["whoami"], env=path)
+    # Python will cache my path for whoami instead of the original.
+    subprocess.run(env=path)
 
 
     print()
